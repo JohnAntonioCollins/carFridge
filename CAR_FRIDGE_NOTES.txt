@@ -1,0 +1,347 @@
+CAR FRIDGE NOTES:
+
+STATUS:
+3:58 PM 4/10/2020
+Panels; installed extra rack bracing, cedar 'anlge iron' glued and screwed.
+9:57 PM 4/8/2020 
+Panels; Newpowa panels (2x100w) on Cherokee, need extra rack bracing. connected and charging.
+ChargeController; Eco-Worthy, in Cherokee, connected, ok.
+Battery; Northstart 102Ahr charging in Cherokee.
+RaspberryPi; on bench, needs new os and setup, partially done.
+Fridge; in Cherokee, not connected.
+Misc; accessory relay disconnected to prevent battery discharge.
+
+TODO: make logging to usb drive work.
+code; make 'starter' scripts that spec the &> logfile with conditions and stuff, so the call in /etc/rc.local is just a single call without decorations.
+todo; add the -e back into rc.local
+
+
+
+DONE.TODO: build & install a relay betweeen the battery and the accessories controlled by the solar controller. 
+todo: (maybe time-delay and signal so r'pi shuts down gracefully?)
+
+TODO: use a latching bi-stable relay operated by Ras'Pi between battery and accessories normally signaled on/off by solar controller's accessory output.
+ 
+TODO: limit file size.
+
+DONE.TODO: get mic-bot source code from old lappy
+
+REF: java, pi4j, ds18b20
+https://www.youtube.com/watch?v=ea1dT-SqQ4Q
+
+battery sizing info: https://www.solarpaneltalk.com/forum/off-grid-solar/batteries-energy-storage/22042-battery-sizing-for-surge-loads
+
+B8:27:EB:46:80:04 Pi
+OLD: linksys router Firmware: DD-WRT v24-sp1 (07/28/08) micro
+
+10:46 PM 5/12/2018
+GOAL: raspberry pi to record temperatures with time-stamps, of car fridge.
+TODO: look into this for wireless sensors: https://timleland.com/wireless-temperature-sensor/
+TODO: look into relocating the fridge's temp sensor. it may be too close to suction line and be inaccurate.
+
+TODO: adjust new controller settings to harbor freight's battery ideal. especially look at "absorb" time. research all this more.
+DONE.TODO: find insulated cooler bag that fits the fridge
+
+9:16 PM 6/27/2018
+NorthStar is about 100ahr battery.
+silver trailer is about 4'5"?? by 5'2"??
+100w 12v renogy panel is 47.3x21.3x1.4 in
+
+8:38 PM 6/13/2018
+solar controller cuts power / restores power at 11.9v. makes the fridge and entire system surge on & off. need to either change controller settings or hook fridge directly to batteries and rely on it's battery protection. OR set up some other battery protection.
+
+HARDWARE COMPONENTS:
+C15 Alpicool car fridge.
+solar panel kit, 100w, from Harbor Freight.(*minus the solar controller) WIRED IN 24V, two series pairs.
+DEPRECATED: 35ahr deepcycle agm battery from Harbor Freight #68680
+NorthStar deep cycle agm battery, 102aHr.
+*Eco-Sources MPPT solar controller (275w 12v panel max, 20A discharge max)
+Raspberry Pi 3B, B8:27:EB:46:80:04
+breakout "hat" for r'pi
+ds18b20 temperature sensor with water-proof probe housing.
+ds3231 hardware time clock (Adafruit #ADA3013)
+
+
+3:52 PM 5/28/2018 ECO-WORTHY solar controller https://www.amazon.com/Solar-Charge-Controller-Regulator-solar/dp/B00FF1KGT4/ref=cm_cr_arp_d_product_top?ie=UTF8
+
+(3) 35aHr deep cycle sealed AGM battery from Harbor Freight.
+Rapsperry Pi
+BROKEN. 5v 3amp "battery eliminator circuit" to power 5v r'pi from 12v battery.
+USING ~2.5amp 12v->usb car adapter. 
+DS18B20 water-resistant temperature sensor(s).
+DEPRICATED; Linksys wifi router (it is a 12v/DC device) running dd-wrt (dd-wrt not required).
+pegboard, metal, 16-inch square, from Lowes Home Improvement (to mount electronics)
+miscelaneous cables and connectors ordered through Amazon.com.
+Digital refrigerator thermometers that records max and min temperatures (for reference and when the r'pi shuts down on low solar battery voltage.)
+
+FUTURE/POSSIBLE HARDWARE:
+wireless transceiver for DS18B20 sensor(s).
+voltage sensors REF: http://henrysbench.capnfatz.com/henrys-bench/arduino-voltage-measurements/pcf8591-adda-converter-arduino-tutorial-1-a-simple-analog-measurement/
+amperage sensors
+"power on/off" sensors and relays
+mobile data connection for r'pi (would supplant the wifi router).
+
+
+SOFTWARE COMPONENTS:
+DEPRECATED: raspAP hotspot & gui on raspberry pi.
+OLD: r'pi raspbian OS, 192.168.1.100 , static controlled by the router. B8:27:EB:46:80:04
+whatever steps taken to get the DS18B20 sensor working on the r'pi (see TODO's).
+temperature.sh (simple sript that gets temperature from sensor and logs it with a date/time stamp.)
+temperature.log (where data is logged)
+some place where the script is launched on boot. (see TODO's.)
+thermostat.sh, launched on boot, gpio23, physical16.
+DEPRICATED: dd-wrt wifi router firmware (assigns a static ip to r'pi as well as offers wireless connection to r'pi. will possibly supply date/time, see TODO's)
+
+FUTURE/POSSIBLE SOFTWARE:
+program that logs all sensor data including the r'pi's own diagnostics into a database on the r'pi.
+website that presents all the data in a smart way, polls r'pi only when site is used or to take 'snapshots' for status reports.
+r'pi will send notifications on error situations.
+
+NOTE: protect the batteries at all cost.
+
+
+THINGS TO RESEARCH:
+https://www.pilight.org/
+
+
+
+
+
+PROJECT INFO:
+
+FRIDGE THERMOMETERS WITH MAX & MIN MEMORY:
+Unigear brand.
+reference: https://www.amazon.com/gp/product/B01KQAN1WM/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1
+NOTE: these are to see how hot or cold the ambient(car interior) and fridge gets when the solar controller shuts off the 'pi when the batteries get too low. The maximum memory on these thermometers coupled with the time-stamps on the raspberry pi logs will give me a good indication of how long it takes to recharge the batteries and how warm food will get in the meantime.
+
+
+REAL TIME CLOCK INFO (FOR RASPBERRY PI):
+CHIP: ds3231sn (has temperature compensation)
+BRAND/PART: Adafruit #ADA3013
+BATTERY: cr1220 (but I could only find a cr1216 for now, same voltage 3v)
+WIRE COLOR / PINOUT:
+ORANGE : Vin
+WHITE+ORANGE : GND
+GREEN : SCL
+WHITE+GREEN : SDA
+[removed, unused] BLUE : BAT
+[removed, unused] WHITE+BLUE : 32K
+[removed, unused] BROWN : SQW
+[removed, unused] WHITE+BROWN : RST
+did; isntalled clock, no battery.
+	ORANGE > 3.3v on screw-hat
+	WHITE+ORANGE > ground on screw-hat
+	GREEN > 'SCL' on screw-hat
+	WHITE+GREEN > 'SDA' on screw-hat
+did; sudo raspi-config, peripheral settings, enable i2c, enable i2s (may not need this, got from previous bad tutorial, didn't undo)
+DEPRECATED: WRONG LINK? reference: https://www.microchip.com/forums/m618722.aspx (good tutorial)
+did; in
+	/boot/config.txt 
+	append:
+	dtoverlay=i2c-rtc,ds3231
+did; in
+	/lib/udev/hwclock-set
+	comment:
+	#if [ -e /run/systemd/system ] ; then
+	# exit 0
+	#fi
+did; sudo shutdown now
+did; installed battery in clock.
+did; reboot
+result;
+pi@raspberrypi:/dev $ sudo hwclock -r --debug
+hwclock from util-linux 2.25.2
+hwclock: cannot open /dev/rtc: No such file or directory
+No usable clock interface found.
+hwclock: Cannot access the Hardware Clock via any known method.
+did; moved GREEN:SCL wire from screw-hat#IO5 to screw-hat#SCL
+result; SUCCESS!!
+todo; set system time...
+did; sudo date -s "23 APRIL 2019 23:14:00"
+## only need to manually set datetime if not on the internet
+todo; set hardware clock time from system time
+did; sudo hwclock -w
+done.todo; power down, wait, power up, confirm hwclock works on battery and system time gets updated on boot.
+SUCCESS!! ~ 9:03 PM 4/24/2019
+
+
+SCREW-TERMINAL HAT FOR RASPBERRY PI:
+CZH-LABS d-1144 v1.0
+(pins are labeled)
+PIN LABEL SCHEME: ? 
+R'pi pinout reference: pinout reference: https://pinout.xyz/
+
+
+SOLAR CONTROLLER INFO:
+cut-out: 12.1v ~55% (would do 12.05v but resolution is only to tenths.)
+cut-in: 12.3v ~70% TODO: think on this. Q: what is the best cut-in voltage for my purposes? A: experiment will tell!
+float: 13.7v
+bulk: 14.?v TODO: get accurate spec.
+
+
+LINKSYS ROUTER INFO: DEPRICATED:  (DEPRICATED: R'PI IS RUNNING HOTSPOT SOFTWARE NOW (R'PI IS CONNECTING TO PHONE HOTSPOT OR HOUSE WIFI))
+ROUTER IP: 192.168.1.1
+SSID: KPF-2127
+PASSWORD: Garglechew1n
+NOTE: r'pi has a static ip assigned by the router: EDIT; R'pi is currently at 192.168.1.100 12:06 AM 6/7/2018
+raspberrypi	192.168.1.130	B8:27:EB:46:80:04
+NOTE: router is set to reboot automatically daily at 6am. router time was set manually via telnet. telnet is currently disabled.
+
+
+
+RASPBERRY PI INFO:
+
+Raspberry Pi 3B, with wifi, bluetooth.
+todo; neat system info commands! https://www.maketecheasier.com/finding-raspberry-pi-system-information/
+
+pinout reference: https://pinout.xyz/
+Q: what is R'Pi's user/pass? A: pi/thra$er
+
+9:29 PM 4/10/2019
+DID: installed raspAP on raspberry pi. 
+wifi pass: mate ricks
+admin: admin/Garfield
+ap ip: 10.3.141.1
+PROBLEM: ssid is sometimes gone.
+did; sudo apt update, sudo apt upgrade.
+did; changed to channel 11 and changed hw_mode. all in gui. RESULT: ssid was not at all visible.
+did; pi@raspberrypi:/etc/hostapd $ vi hostapd.conf; changed hw_mode=a , channel=7
+todo; reboot after upgrade is done. test ap wifi. ~ LEFT OFF HERE ~
+
+NOTE: temperature.sh is called on r'pi boot by 
+r'pi logs date and temperature every 30 seconds to temperature.data and logs to temperature.log
+DEPRECATED.REF: .config/lxsession/LXDE-pi/autostart:@/home/pi/temperature.sh
+REF: pi@raspberrypi:/etc $ cat rc.local
+...
+# temperature logger
+sudo /home/pi/temperature.sh &> temperature.log
+
+
+
+
+DEPRECATED.NOTE: r'pi has no internal clock. if r'pi is shut down, the date/time must be manually set in order to be accurate.
+ To set time/date on r'pi do:
+	sudo date -s "12 MAY 2018 18:28:00"
+	BUT REPLACE THAT DATA WITH THE CURRENT DATA.	
+
+NOTE: r'pi has HDMI disabled in order to save power.
+ To enable HDMI, in config file /etc/rc.local, delete line
+	/usr/bin/tvservice -o
+ (to enable it temporarily, do /usr/bin/tvservice -p)
+
+HOWTO: set up raspberry pi and ds18b20 sensor:
+1. connect sensor
+	NOTE: sensor wires: red : power, black : ground, yellow : data.
+	1. 4.7k ohm resistor between red power and yellow data wire.
+	2. black ground to ground on pi
+	2. yellow data wire to "IO4" on my screw-terminal 'hat'. ("pin 7, physical pin number")
+	4. red power to power on pi
+	5. ssh into pi
+	IF SENSORS HAVE BEEN SET UP BEFORE SKIP TO 10.
+	6. (only needs done once) in /boot/config.txt ; append "dtoverlay=w1-gpio"
+	7. reboot after editing /boot/config.txt
+	8. do; sudo modprobe w1-gpio
+	9. # did not need to do second time around on fresh os. do; sudo modprobe w1-therm
+	10. get unique sensor id; do; 
+		cd /sys/bus/w1/devices
+		ls
+	document the sensor id. it's like "28-398473849734..."
+	11. test sensor by viewing raw sensor data:
+		cd <your sensor id dir>
+		cat w1-slave
+TEMPERATURE SENSORS:
+ds18b20 temperature sensor with water-proof probe housing.
+28-0517c45cb5ff (misplaced...? found and re-connected 4/16/2020 on new os & sd card)
+28-0417c4295fff
+28-0417c46ba8ff (installed 9:06 PM 4/24/2019)
+
+
+SOFTWARE:
+
+did; made a script to get the temp's on demand.
+I put it in /user/bin/ and made it executable.
+tempnow
+
+
+#!/bin/bash
+# temperature.sh
+# this runs on boot
+
+logFile=~/temperature.log
+
+line(){
+  echo "" >> $logFile
+}
+
+timeStamp(){
+  date >> $logFile
+}
+
+getTemp(){
+  line
+  echo sensor 28-0517c45cb5ff >> $logFile
+  cat /sys/bus/w1/devices/28-0517c45cb5ff/w1_slave >> $logFile
+  line
+  echo sensor 28-0417c4295fff >> $logFile
+  cat /sys/bus/w1/devices/28-0417c4295fff/w1_slave >> $logFile
+  line
+  echo sensor 28-0417c46ba8ff >> $logFile
+  cat /sys/bus/w1/devices/28-0417c46ba8ff/w1_slave >> $logFile
+}
+
+while true; do
+line
+timeStamp
+getTemp
+line
+line
+sleep 30
+done
+
+
+HOW TO MAKE A ON/OFF VOLTAGE SENSOR SO THE PI KNOWS TO POWER DOWN WHEN THE SOL CONTROLLER HAS CUT OUT ON LOW VOLTS 
+always need a 10k pullup resistor (can be either pullup or pulldown depending on if sensing 'on' or 'off' voltage)
+a few options: 
+use voltage divider. but no spike protection
+voltage divider with 3v zener in parallell
+voltage divider with capacitor in parallell (slows sense time though)
+optoisolator 12v-3.3v, effective isolation. and this thing is inexpensive. try to do this.
+REF: https://www.raspberrypi.org/forums/viewtopic.php?t=70417
+also possibly have a change in the sol controller appliance voltage trigger a pulse to short pins 5 & 6 which will toggle power-down & boot. but this will not allow for a graceful shutdown or any type of low-power monitoring.
+
+HOW TO WAKE THE PI AFTER VOLTAGE CUT IN
+have solar controller appliance voltage trigger a pulse to short pins 5 & 6 on the pi, initiating a boot.
+REF: https://www.raspberrypi.org/forums/viewtopic.php?t=221760
+
+
+CODE SNIPPETS
+# get temp number from sensor output
+cat /sys/bus/w1/devices/28-0517c45cb5ff/w1_slave | grep "t=" | sed 's/.*t=//'
+# "export" gpio pin. need to do in order to init and use
+if [ ! -e /sys/class/gpio/gpio11 ]; then ## useing ! -e here, not sure what I had used before.
+    echo "11" > /sys/class/gpio/export
+  fi
+# set direction of gpio pin "out" or "in"
+echo "out" > /sys/class/gpio/gpio11/direction
+# turn gpio pin on "1" or off "0". 11 is an example. use the correct pin in your code.
+echo "0" > /sys/class/gpio/gpio11/value
+# get state of a gpio pin (similar for ..direction)
+cat /sys/class/gpio/gpio11/value
+### web example copypasta
+#   Exports pin to userspace
+echo "18" > /sys/class/gpio/export                  
+
+# Sets pin 18 as an output
+echo "out" > /sys/class/gpio/gpio18/direction
+
+# Sets pin 18 to high
+echo "1" > /sys/class/gpio/gpio18/value
+
+# Sets pin 18 to low
+echo "0" > /sys/class/gpio/gpio18/value 
+
+
+	
+	
+	
+

@@ -1,0 +1,27 @@
+GOAL: restore car-fridge ras'pi on new sd card
+
+TODO:
+power supply; get truely adequate power supply. 12v-5v converter for sol'fridge, 110v-5v for bench, 2.5amp minimum constant.
+graceful shutdown; build yes/no voltage sensor. code graceful shutdown on no-voltage. 
+low-volt led; put a red LED on the normally closed side of the accessory relay to get a visual indicator of low voltage protection.
+boot on yes-voltage; build a reverse yes/no voltage sensor with capacitor+resistor so it's momentary. connect to pins... 5 & 6? to short and bootup. 
+	OR? change a setting before rebooting, go into lower power fridge monitor mode, then on yes-voltage change settings to normal and reboot.
+
+sensors; set up all three temperature sensors ~ LEFT OFF HERE ~
+
+hdmi; disable hdmi to save power.
+bluetooth; disable bluetooth to save power.
+backup; make bit-for-bit image of sd card. try gparted on ubuntu live.
+
+DONE:
+code; put code on new os (recover from old card etc or re-write it)
+code; test logging to usb drive when logger starts upon boot.
+code; thermostat
+code; temperature logger
+usb; get usb driver for data logging.
+old card; read old card, get code etc. Try ubuntu live usb drive on laptop, or card reader on phone or ras'pi. NOTE: NO FS PARTITION!
+enabled for temperature sensors, set up one sensor.
+wifi; save haunted and hotspot.
+install raspian on new sd card.
+ssh; turn on ssh
+clock; set up hardware clock

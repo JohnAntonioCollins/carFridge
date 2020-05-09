@@ -1,0 +1,36 @@
+#!/bin/bash
+# stopfridge
+# v1.0
+# kill thermostat.sh, shut off gpio23
+
+gpio=23
+
+turnOff(){
+ echo "0" > /sys/class/gpio/gpio${gpio}/value
+}
+
+getState(){
+ cat /sys/class/gpio/gpio${gpio}/value
+}
+
+
+pid(){
+ cat /home/pi/carfridge/code/thermostat/pid
+}
+
+
+kill $(pid)
+turnOff
+echo "killed thermostat.sh pid ${pid} and set ${gpio} to 0"
+echo ""
+echo "getting some data to double check, but you'll have to take action on it your self."
+echo "grep'ing processes for thermostat to make sure..."
+ps -A | grep thermostat
+echo "getting state three times to make sure..."
+getState
+sleep 3
+getState
+sleep 3
+getState
+
+

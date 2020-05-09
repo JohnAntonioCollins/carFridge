@@ -1,0 +1,8 @@
+#!/bin/bash
+# get the ras'pi fridge sensor data on demand.
+  #echo sensor 28-0517c45cb5ff
+  #cat /sys/bus/w1/devices/28-0517c45cb5ff/w1_slave
+  echo sensor 28-0417c4295fff
+  cat /sys/bus/w1/devices/28-0417c4295fff/w1_slave
+  echo sensor 28-0417c46ba8ff
+  cat /sys/bus/w1/devices/28-0417c46ba8ff/w1_slave

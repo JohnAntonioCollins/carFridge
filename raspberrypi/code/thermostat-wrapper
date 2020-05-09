@@ -1,0 +1,19 @@
+#!/bin/bash
+# this wrapper checks for resources, sets log destination, and starts thermostat.sh
+# v1.0
+
+# is USB drive there?
+
+# yes: mount it if not mounted
+# no: use fallback log and data locations, log a message. maybe email me.
+
+# is temp sensors there?
+# no: do error, maybe email
+
+# is gpio ready to go ok?
+# no: do error.
+
+# is thermostat.sh there?
+# if not do error
+
+# if all ok, start thermostat.sh

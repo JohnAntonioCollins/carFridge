@@ -1,0 +1,515 @@
+MIC’BOT
+Apptast1c
+john.antonio.collins@gmail.com
+SECOND SPRINT DUE THURS 3/30
+goal: MVP: phone app controls hardware-mock ‘up’, ‘down’, ‘left’, ‘right’, ‘flashlight’. (4 LEDs)
+	extra feature: flashlight on/off
+	extra features: camera shows image stills or video
+
+ If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
+
+SPRINT 2:
+1. build circuit
+    1. test amp draw on base when running motor:  ~5mA using 470ohm base resistor
+    2. design circuit 
+    3. MJE3055T candidate for pos side transistor
+    4. get new batteries
+    5. GET MOTOR CONTROLLER AND/OR PNP TIP125 or PNP TIP3055
+    6. add code to bring reversing transistors on; ‘h-bridge’.
+2. IF TIME:
+    1. build flashlight
+
+VIDEO INFO:
+            1. current python res: 320 x 240 … 1.33’
+            2.  Q: 320 x 568 possible to match phone res?
+                1. A: yes works fine.
+            3. Q: max res of Pi cam?
+                1. A: 3280 × 2464 pixels
+            4. Q: res of my Android screen?
+                1. A: 1080 x 1920 … 0.5625 w/h
+
+ motor model JGB37-520
+@z bobbin tire and wheel as idler/drivewheel
+	-3. look up ideal transistor for micbot
+			https://www.raspberrypi.org/forums/viewtopic.php?t=40661&p=331964
+
+			Q: calc transistor base resistor:
+				1. calc collector current (amp draw of motors) 4amp start, 1amp run
+				2. hfe of TIP120 is 1000 (“or the correct value for the current you need”)
+				3. 6.2 - 5.75 v drop across running motor
+				4. Vbe of TIP120 is 2.25v (for 5amp Ic), so 3.3 - 2.25 = 1.05 v drop resistor @ 4mA minimum, say 5mA.
+						1.05 / .004 = 262.5 ohm
+
+
+			Q: capacitor to alleviate psu on startup?
+
+	
+
+	0. gpio java unit tests?? mock object for pi4j objects?
+
+0. download flask stream project, edit files as per instructions√
+	http://videos.cctvcamerapros.com/raspberry-pi/how-to-setup-video-streaming-server.html
+try this for pure / full view:     @app.route('/video_feed')
+
+
+1. DON’T WORRY FOR NOW - add line in Spring app to start Flask server.
+-1. add line to shut down all pins after each method call
+	
+
+	5 add a way to enter ip address in ionic app??
+	 
+
+Q: what is pin pull down resistance specific use relevant
+Q: can pi4j report voltage/amp draw etc?
+Q: max amp draw?
+	A:  :You may draw no more than 50 mA from the +3.3 V supply
+		:The board uses approximately 700 mA from the +5 V supply. You may draw current from the +5 V pins 			provided the sum of your current and the board's 700 mA can be provided by the supply you provide to the board.
+		:Never demand that any gpio output pin source or sink more than 16 mA. 
+
+
+FIRST SPRINT DUE THURS 3/23 √
+goal map: front end to led (on or off, just something)√
+SPRINT 1:√
+1. make a git repo √; README√, √wireframe,
+2. get Java√ on ’Pi to control pins (use LED/multi-meter)
+    1. need get ‘Pi online to install WiringPi√
+        1. use slabojoy as adapter
+        2. curl -s get.pi4j.com | sudo bash√
+    2. install maven only from maven binary √
+    3. write basic server/app in intellij/VisualStudio on mac√
+    4. look up how to get in on the ‘pi correctly to run it there: maven jar
+        1. set up sap / ssh on pi (so can do headless etc)
+    5. need multi-meter from car
+3. make .jar to deploy using:       ./mvnw clean install UPDATE now use mvn clean install
+4. Look up GPIO pinouts:
+
+NOTE: thoughtworks guy's name was Raz, I think.
+!@z Q? use vitrualbox to run Raspbian
+
+
+TROUBLESHOOTING GPIO LIBRARY ERROR
+You may have to end up extracting the "libpi4j.so" from the pi4j.jar and placing it in a fixed location and then configuring your web server to include a specific java.library.path.
+"java -Djava.library.path=/var/lib/java"
+
+
+Q: how to extract from jar easily on OS X?
+
+
+
+
+Q: Can Spring run on ‘Pi ?
+	A: yes,  http://javedmandary.blogspot.com/2014/01/spring-boot-on-raspberry-pi.html
+		(takeaway: use Jetty because it’s lighter than Tomcat)
+look up how phone app will interface with Raspberry PI
+	GPIO: http requests - these are ‘one-off’ commands?
+	camera: 
+
+http server, runs shell, runs script, runs WiringPi
+
+RASPBERRY PI
+make jar and deploy app as root for gpis access. use this command:
+sudo env “PATH =$PATH” your_command
+add password to ‘PI?
+start making ionic app:
+
+
+2 pages with a side menu
+Q: how to handle multiple mic’bot views?
+Q: dynamic sidemenu list?
+
+NOTES FROM WIREFRAME
+99-105
+403-752
+#edf2e7 background
+#d90d53 dir but edge
+#317633 side menu bg
+SEE MIC GO
+mic 164 -- 212
+arrow 189
+
+REFORMAT SD CARD FROM OS X INSTRUCTIONS
+note: takes approximately 56 minutes.
+http://trendblog.net/install-raspbian-sd-card-os-x-windows/
+1. format sd card as FAT32
+2. sudo dd bs=1m if=path_of_your_image.img of=/dev/diskn
+3. wait a half hour or so without closing that terminal
+
+RASPBERRY PI
+camera works with all models, 1, 2, 3
+model A+ likely candidate
+wifi dongle
+led (unless camera has night vision or equiv)
+Q: how to simplest achieve low/no light view?
+node-red (installed)
+	is the software to make “flow”; gpio connections
+Q: how to tie raspPI control into Java ionic etc
+	a: WiringPi by Gordon @ Drogon
+	a: Pi4J http://pi4j.com/index.html (contains WiringPi)
+	a: another wiringPi java wrapper, not as full featured but lighter
+
+PLAN AS OF:
+Pi hosts server running Java that uses Pi4J to move motors & led, gets pics/vids from camera
+
+phone runs app that gets pics/vids from server, sends commands to move motors, led, camera on/off
+
+TODO locate sd card adapter, reinstall Raspbian
+download Raspbian to put on card.
+get electronics tool boxes etc.
+
+APP FLOW
+1. open app
+2. click “connect to a new mic’bot”
+3. enter ip of target server, name it
+4. if timeout, app says “timed out. check setup and try again”, but saves it in the list.
+5. upon connection success, app shows mic’bot screen
+6. touch direction buttons to move mic, touch light button to turn light on or off.
+7. side menu to add more, or to remove, or to config
+
+WIREFRAME INFO
+KIK PIC h = 699, w = 360
+#edf2e7 background
+#d90d53 dir but edge
+#317633 side menu bg
+
+USER INTERFACE QUESTIONS
+Q: can side menu stop before top bar?
+Q how to keep top bar visible during side menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

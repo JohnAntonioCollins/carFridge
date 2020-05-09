@@ -1,0 +1,9 @@
+carfridge ui notes
+a series of graphs, like a medical equipment display or an audio production software ui.
+a line represents "now" and data passes behind it as it's generated.
+can scroll or "scrub" backward and forward over historical data.
+statistical "points of interest" are automatically highlited and foot-noted with an explanation like 
+(highest ever temp, largest disparity between ambient and fridge, shortest cycle time of fridge, shutdown or restart times, etc)
+some important stats are always shown at bottom or top of ui.
+alerts when data is out of acceptable parameters.
+@z maybe like dashboard gauges at top for "now", good params are where needles are pointed up for quick "ok" at a glance.

@@ -1,0 +1,11 @@
+Stage 12V input 24V input
+H1 9.6V off;10.9V on 21.3V off;22.7V on
+H2 10.1V off;11.4V on 22.3V off;23.7V on
+H3 11.1V off;12.4V on 24.3V off;25.7V on
+
+These special features are accessed by first turning off the cooler with the "ON/OFF" button. Then pressing and holding "Set" until "E1" appears. Press "Set" to move to each setting in turn, and press the up/down buttons to make adjustments. The special settings are:
+"E1" Lowest temperature setting
+"E2" Highest Temperature setting (I think there is a maximum 40 C spread between E1 and E2)
+"E3" Temperature Return Setting
+"E4" Soft start Setting and
+"E5" Changing from Celsius to Fahrenheit

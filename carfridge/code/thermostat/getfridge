@@ -1,0 +1,9 @@
+#!/bin/bash
+# get fridge temp and gpio state, loop
+
+source /home/pi/carfridge/code/dao/tempSensorDAO
+
+while [ true ]; do 
+ /home/pi/getfridge
+ sleep 3
+done

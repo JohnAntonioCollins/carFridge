@@ -1,0 +1,15 @@
+sudo rm /etc/ssh/ssh_host_*; sudo dpkg-reconfigure openssh-server
+
+turnOn(){
+ echo "1" > /sys/class/gpio/gpio$gpio/value
+}
+
+
+
+# initialize gpio pin output
+echo "$date starting thermostat." >> $log
+if [ ! -d /sys/class/gpio/gpio$gpio ]
+then
+ echo "$gpio" > /sys/class/gpio/export
+fi
+echo "out" > /sys/class/gpio/gpio$gpio/direction
