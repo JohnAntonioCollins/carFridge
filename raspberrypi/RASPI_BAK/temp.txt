@@ -1,4 +1,0 @@
-09 00 4b 46 7f ff 0c 10 a1 : crc=a1 YES
-09 00 4b 46 7f ff 0c 10 a1 t=562
-09 00 4b 46 7f ff 0c 10 a1 : crc=a1 YES
-09 00 4b 46 7f ff 0c 10 a1 t=562
