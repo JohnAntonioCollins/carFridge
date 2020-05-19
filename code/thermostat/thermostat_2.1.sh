@@ -73,15 +73,14 @@ if [ ! -e "/sys/bus/w1/devices/$sensorId/w1_slave" ]; then
  exit 1
 fi
 
+# log state and temp on startup
+echo $(jsonData $(getTemp) $(getState)) >> $dataFile
 
 while true
 do
 
  temp=$(getTemp)
  state=$(getState)
-
-# temporary, remove after test..
-echo $(jsonData $temp $(getState))
 
  if [ $temp -ge $onTemp ] && [ $state -eq 0 ]
   then

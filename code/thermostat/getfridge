@@ -1,9 +1,34 @@
 #!/bin/bash
-# get fridge temp and gpio state, loop
+# get fridge temp and gpio state
 
-#source /home/pi/carfridge/code/dao/temperatureSensorDao
+source /home/pi/carfridge/code/dao/temperatureSensorDao
 
-while [ true ]; do 
- /home/pi/getfridge
- sleep 3
-done
+getFridge(){
+ thous=$(temp "fridge")
+ wholes="$((thous / 1000))"
+ decis=$((thous - (wholes * 1000)))
+
+ if [ $decis -lt 10 ]; then
+  decis="00${decis}"
+ fi
+
+ if [ $decis -lt 100 ]; then
+  decis="0${decis}"
+ fi
+
+ echo "${wholes}.${decis}"
+}
+
+getCompressor(){
+state=$(cat /sys/class/gpio/gpio23/value)
+if [ $state = "0" ]; then
+ echo "off"
+elif [ $state = "1" ]; then
+ echo "on"
+fi
+}
+
+echo "fridge $(getFridge)C, compressor $(getCompressor)"
+#echo "$(temp fridge)"
+
+ 
