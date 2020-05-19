@@ -3,7 +3,7 @@
 # v1.0
 # get average, max, and min
 
-source /home/pi/carfridge/code/dao/tempSensorDAO
+source /home/pi/carfridge/code/dao/temperatureSensorDao
 
 
 dataDir="/media/pi/USB_32GB/carfridge/data"
@@ -25,17 +25,20 @@ getTemp(){
 }
 
 getAvg(){
- echo $(cat $avgFile)
+ cat $avgFile
 }
 
 getMin(){
  if [ ! -e $minFile ]; then
   echo $(getTemp) > $minFile
  fi
- echo $(cat $minFile)
+ cat $minFile
 }
 
 getMax(){
+ if [ ! -e $maxFile ]; then
+  echo $(getTemp) > $maxFile
+ fi
  cat $maxFile
 }
 
@@ -77,7 +80,7 @@ updateStats(){
 
 getStatsJSON(){
  updateStats
- echo "{\"avg\":\"$(getAvg)\",\"min\":\"$(getMin)\",\"max\":\"$(getMax)\"}"
+ echo "{\"avg\":\"$(getAvg)\",\"min\":[\"$(getMin)\",\"$(date)\"],\"max\":[\"$(getMax)\",\"$(date)\"]}"
 }
 
 prepPrvVal $avgFile

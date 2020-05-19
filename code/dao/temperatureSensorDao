@@ -1,0 +1,36 @@
+#!/bin/bash
+# sensorDAO
+# gets temperature, id, name from ds18b20 sensor
+
+nameA=fridge
+nameB=ambient
+nameC=aux
+
+declare -A nameToSensor
+nameToSensor[$nameA]=28-0417c46ba8ff
+nameToSensor[$nameB]=28-0417c4295fff
+nameToSensor[$nameC]=28-0517c45cb5ff
+
+temp(){
+ sensorId=${nameToSensor[$1]}
+ device="/sys/bus/w1/devices/${sensorId}/w1_slave" 
+ if [ -e $device ]; then
+  cat ${device} | grep "t=" | sed 's/.*t=//'
+ fi
+# cat /sys/bus/w1/devices/$sensorId/w1_slave | grep "t=" | sed 's/.*t=//'
+}
+
+id(){
+ name=$1
+ echo "${nameToSensor[$name]}"
+}
+
+# this was to call this script stand-alone. but it's an include.
+#if [ "$2" = "id" ]; then
+# id $1
+#elif [ -z "$2" ]; then
+# temp $1
+#fi
+
+
+

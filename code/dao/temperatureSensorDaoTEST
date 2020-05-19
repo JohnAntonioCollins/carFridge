@@ -1,0 +1,15 @@
+#!/bin/bash
+# unit test for temperature sensor dao script
+
+source /home/pi/carfridge/code/dao/temperatureSensorDao
+
+while true; do
+ echo $(temp fridge)
+ echo $(id fridge)
+ echo $(temp ambient)
+ echo $(id ambient)
+ echo $(temp aux)
+ echo $(id aux)
+ sleep 2
+done
+ 
