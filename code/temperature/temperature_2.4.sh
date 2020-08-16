@@ -7,13 +7,13 @@ echo "$(date) temperature.sh starting"
 source /home/pi/carfridge/code/dao/temperatureSensorDao
 
 # set data logging destination
-dataName="temperature.data"
-dataDir="/media/pi/USB_32GB/carfridge/data/"
-fallbackDir="/home/pi/carfridge/data/"
-if [ ! -d $dataDir ]; then
- dataDir=$fallbackDir
+dataName="/carfridge/data/temperature.data"
+parentDir="/media/pi/USB_32GB1"
+dataFile="${parentDir}${dataName}"
+fallbackParentDir="/home/pi"
+if [ ! -d $parentDir ] || [ ! -d $dataFile ]; then
+ dataFile="${fallbackParentDir}${dataName}"
 fi
-dataFile="${dataDir}${dataName}"
 
 
 getSensorJson(){

@@ -3,20 +3,29 @@
 
 source /home/pi/carfridge/code/dao/temperatureSensorDao
 
-getFridge(){
- thous=$(temp "fridge")
+
+getTempInDeci(){
+ thous=$1
  wholes="$((thous / 1000))"
  decis=$((thous - (wholes * 1000)))
 
  if [ $decis -lt 10 ]; then
   decis="00${decis}"
- fi
-
- if [ $decis -lt 100 ]; then
+ elif [ $decis -lt 100 ]; then
   decis="0${decis}"
  fi
 
  echo "${wholes}.${decis}"
+}
+
+getFridge(){
+ t=$(temp "fridge")
+ getTempInDeci t
+}
+
+getAmbient(){
+ t=$(temp "ambient")
+ getTempInDeci t
 }
 
 getCompressor(){
@@ -28,7 +37,7 @@ elif [ $state = "1" ]; then
 fi
 }
 
-echo "fridge $(getFridge)C, compressor $(getCompressor)"
+echo "fridge $(getFridge)C, compressor $(getCompressor). (ambient $(getAmbient)C)"
 #echo "$(temp fridge)"
 
  

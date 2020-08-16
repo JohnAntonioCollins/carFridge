@@ -1,6 +1,6 @@
 #!/bin/bash
 # thermostat.sh 
-# version 2.0
+# version 2.1
 # car fridge thermostat 
 
 echo "$(date) thermostat.sh starting"
@@ -8,13 +8,13 @@ echo "$(date) thermostat.sh starting"
 source /home/pi/carfridge/code/dao/temperatureSensorDao
 
 # set data logging destination
-dataName="thermostat.data"
-dataDir="/media/pi/USB_32GB/carfridge/data/"
-fallbackDir="/home/pi/carfridge/data/"
-if [ ! -d $dataDir ]; then
- dataDir=$fallbackDir
+parentDir="/media/pi/USB_32GB1"
+dataFile="/carfridge/data/thermostat.data"
+dataPath="${parentDir}${dataFile}"
+fallbackParentDir="/home/pi"
+if [ ! -d $parentDir ] || [ ! -d $dataPath ]; then
+ dataPath="${fallbackParentDir}${dataFile}"
 fi
-dataFile="${dataDir}${dataName}"
 
 
 # signed int, Celcius thousandths
@@ -74,7 +74,7 @@ if [ ! -e "/sys/bus/w1/devices/$sensorId/w1_slave" ]; then
 fi
 
 # log state and temp on startup
-echo $(jsonData $(getTemp) $(getState)) >> $dataFile
+echo $(jsonData $(getTemp) $(getState)) >> $dataPath
 
 while true
 do
@@ -85,12 +85,12 @@ do
  if [ $temp -ge $onTemp ] && [ $state -eq 0 ]
   then
   turnOn
-  echo $(jsonData $temp $(getState)) >> $dataFile
+  echo $(jsonData $temp $(getState)) >> $dataPath
     
  elif [ $temp -le $offTemp ] && [ $state -eq 1 ]
   then
   turnOff
-  echo $(jsonData $temp $(getState)) >> $dataFile
+  echo $(jsonData $temp $(getState)) >> $dataPath
 
  fi
 

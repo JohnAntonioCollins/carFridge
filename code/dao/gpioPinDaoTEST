@@ -1,0 +1,122 @@
+#!/bin/bash
+# unit test for gpioPinDao
+source /home/pi/carfridge/code/dao/gpioPinDao
+gpioNum=24
+
+function before(){
+ if [ -e /sys/class/gpio/gpio${gpioNum} ]; then
+  echo "$gpioNum" > /sys/class/gpio/unexport
+ fi
+}
+
+function after(){
+ if [ -e /sys/class/gpio/gpio${gpioNum} ]; then
+  echo "$gpioNum" > /sys/class/gpio/unexport
+ fi
+}
+
+
+
+function run(){
+ # TODO find a way to get all the test functions here and run them iteratively, each between 'before' and 'after' (just like junit @Before and @After)
+ echo ""
+ echo "$1"
+ before
+ $1
+ after
+}
+
+function assertEquals(){
+ msg=$1
+ expected=$2
+ actual=$3
+ if [ "$expected" = "$actual" ]; then
+  echo "PASS: $msg"
+ else
+  echo "FAIL: $msg"
+  echo "  expected[$expected] actual[$actual]"
+ fi
+}
+
+function device_test(){
+ msg="When a gpio number is supplied, should give correct character device path."
+ expected="/sys/class/gpio/gpio${gpioNum}"
+ actual=$(device $gpioNum)
+ assertEquals "$msg" "$expected" "$actual"
+}
+run device_test
+
+
+# 1. confirm 24 not exported
+function isGpioExported_test(){
+ msg="When arg: $gpioNum is an unexported gpio, should return zero."
+ expected=0
+ actual=$(isGpioExported $gpioNum)
+ #echo "actual: $actual"
+ assertEquals "$msg" "$expected" "$actual"
+}
+run isGpioExported_test
+
+
+# 2. export 24
+function isGpioExported_true_test(){
+ msg="When arg: $gpioNum is exported, isExported should return one."
+ expected=1
+ exportGpio $gpioNum
+ actual=$(isGpioExported $gpioNum)
+ # 2.1 confirm 24 exported
+ assertEquals "$msg" "$expected" "$actual"
+}
+run isGpioExported_true_test
+
+
+# 3. confirm 24 direction...  null?
+function getGpioDirection_default_test(){
+ msg="When a gpio is exported, default direction should be \"in\"."
+ expected="in"
+ # prep
+ exportGpio $gpioNum
+ actual=$(getGpioDirection $gpioNum)
+ assertEquals "$msg" "$expected" "$actual"
+}
+run getGpioDirection_default_test
+
+
+# 4. set 24 direction out 
+# 5. confirm 24 direction out 
+function setGpioDirection_out_test(){
+ msg="When second arg is \"out\", should set direction to \"out\"."
+ expected="out"
+ # prep
+ exportGpio $gpioNum
+ setGpioDirection "$gpioNum" "out" 
+ sleep 1
+ actual=$(getGpioDirection $gpioNum)
+ assertEquals "$msg" "$expected" "$actual"
+}
+run setGpioDirection_out_test
+
+
+# 8. set 24 state 0
+# 9. confirm 24 state 0
+function setState_test(){
+ msg="When state is set to 1, getState should be 1."
+ expected=1
+ # prep
+ exportGpio $gpioNum
+ setGpioState $gpioNum 0
+ actual=$(getGpioState $gpioNum)
+ assertEquals "$msg" "$expected" "$actual"
+}
+run setState_test
+
+# 10. set 24 state 1
+
+# 11. confirm 24 state 1
+
+# 12. unexport 24
+
+# 13. confirm 24 unexported
+
+#fncs=`declare -F -p | cut -d " " -f 1`
+#echo $funcs

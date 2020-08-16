@@ -1,0 +1,56 @@
+#!/bin/bash
+# manage gpio pins on the raspberry pi
+# get is exported, export, unexport, get direction, set direction, get state, set state
+# TODO write a test for this, use a safe, unused gpio pin or pins LEFT OFF HERE
+
+
+prefix="/sys/class/gpio"
+
+
+function device(){
+ echo ${prefix}/gpio${1}
+}
+
+
+function isGpioExported(){
+ if [ -e $(device $1) ]; then
+  echo "1" 
+ else
+  echo "0" 
+ fi
+}
+
+function exportGpio(){
+ echo $1 > ${prefix}/export
+}
+
+function unexportGpio(){
+ echo $1 > ${prefix}/unexport
+}
+
+function getGpioDirection(){
+ cat $(device $1)/direction 
+}
+
+function setGpioDirection(){
+ echo "arg 1, gpio, is $1"
+ echo "arg 2, direction, is $2"
+ echo "write path is:"
+ echo "$(device $1)/direction"
+ inOrOut=$2
+ echo "inOrOut = $inOrOut"
+ # gives write error without the -n (suprresses newline character)
+ # LEFT OFF HERE not working in script, but works on command line. maybe sudo can't do it???
+ echo -n "$inOrOUt" > "$(device $1)/direction"
+}
+
+function getGpioState(){
+ cat $(device $1)/value
+}
+
+function setGpioState(){
+ zeroOrOne=$2
+ echo  "$zeroOrOne" > "$(device $1)/value"
+}
+
+

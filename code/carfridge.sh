@@ -8,11 +8,19 @@ sleep 10
 # keep starting the next scripts even if one has an error
 set +e
 
+# check for usb stick
+rootPath="media/pi/USB_32GB1"
+fallbackPath="home/pi"
+if [ ! -d $rootPath ]
+then
+ rootPath=$fallbackPath
+fi
+
 # temperature logger
-/home/pi/carfridge/code/temperature/temperature.sh &>> /media/pi/USB_32GB/carfridge/log/temperature.log &
+/home/pi/carfridge/code/temperature/temperature.sh &>> ${rootPath}/carfridge/log/temperature.log &
 echo "$!" > /home/pi/carfridge/code/temperature/pid
 
 # fridge thermostat
-/home/pi/carfridge/code/thermostat/thermostat.sh &>> /media/pi/USB_32GB/carfridge/log/thermostat.log &
+/home/pi/carfridge/code/thermostat/thermostat.sh &>> ${rootPath}/carfridge/log/thermostat.log &
 echo "$!" > /home/pi/carfridge/code/thermostat/pid
 

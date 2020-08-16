@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rsync -av --no-links /home/pi/carfridge/ /media/pi/USB_32GB/carfridge/backup/
+rsync -av --no-links /home/pi/carfridge/ /media/pi/USB_32G1/carfridge/backup/

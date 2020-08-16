@@ -107,3 +107,6 @@
 {"datetime":"Thu 16 Apr 2020 10:13:42 PM EDT","state":"1","temperature":"-3313","on-temp":"3333","off-temp":"1111"}
 {"datetime":"Thu 16 Apr 2020 10:13:43 PM EDT","state":"0","temperature":"15303","on-temp":"3333","off-temp":"1111"}
 {"datetime":"Thu 16 Apr 2020 10:13:44 PM EDT","state":"1","temperature":"-3192","on-temp":"3333","off-temp":"1111"}
+{"datetime":"Sat 15 Aug 2020 10:35:26 PM EDT","state":"0","temperature":"29375","on-temp":"3333","off-temp":"2911"}
+{"datetime":"Sat 15 Aug 2020 10:35:28 PM EDT","state":"1","temperature":"29375","on-temp":"3333","off-temp":"2911"}
+{"datetime":"Sat 15 Aug 2020 10:56:43 PM EDT","state":"0","temperature":"2875","on-temp":"3333","off-temp":"2911"}
